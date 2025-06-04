@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "smpteleport",
+  "version": "${version}",
+  "name": "smpTeleport",
+  "description": "3SMP Teleport System",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/smpteleport/icon.png",
+  "environment": "server",
+  "entrypoints": {
+    "fabric-datagen": [
+      "me.sandrp.smpteleport.client.MainDataGenerator"
+    ],
+    "main": [
+      "me.sandrp.smpteleport.Main"
+    ]
+  },
+  "mixins": [
+    "smpteleport.mixins.json",
+    {
+      "config": "smpteleport.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
