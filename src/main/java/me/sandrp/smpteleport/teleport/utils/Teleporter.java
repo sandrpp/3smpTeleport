@@ -1,57 +1,111 @@
 package me.sandrp.smpteleport.teleport.utils;
 
-import me.sandrp.smpteleport.DatabaseManager;
 import me.sandrp.smpteleport.Main;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 
-import java.sql.SQLException;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class Teleporter {
 
-    public static void teleportSpawn(PlayerEntity player) {
+    private static final Map<UUID, TeleportTask> activeTeleports = new HashMap<>();
+    private static final int teleportDelay = 6; // in seconds
 
-        final double radius = 1;
-        final int particles = 30;
-        final ParticleEffect particleEffect = ParticleTypes.END_ROD;
+    public static void startTeleportSpawn(PlayerEntity player) {
+        UUID playerId = player.getUuid();
 
-        //effects
-        player.playSound(SoundEvents.ENTITY_ENDER_DRAGON_FLAP, 1.0F, 1.0F);
-
-
-        ServerWorld world = (ServerWorld) player.getWorld();
-        Vec3d centerPos = player.getPos();
-        int levels = 7;
-        float yMod = 2;
-
-        for (int i = 0; i < levels; i++) {
-            yMod = yMod - 0.33f;
-
-            if (player.isRemoved()) return;
-            Vec3d currentPos = centerPos.add(0, yMod, 0);
-            ParticleEffects.particleCircle(world, currentPos, radius, particles, ParticleTypes.END_ROD);
-
-            try {
-                Thread.sleep(250L);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+        // Cancel existing teleport if any
+        if (activeTeleports.containsKey(playerId)) {
+            activeTeleports.get(playerId).cancel();
+            activeTeleports.remove(playerId);
         }
 
-        //get spawn
-        final BlockPos spawnPos = player.getWorld().getSpawnPos();
+        // Start new teleport
+        TeleportTask task = new TeleportTask(player);
+        activeTeleports.put(playerId, task);
+        task.start();
 
-        //teleport player
-        player.teleport((ServerWorld) player.getWorld(), spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), Collections.emptySet(), player.getYaw(), player.getPitch(), true);
-
+        // Apply effects
+        player.playSound(SoundEvents.ENTITY_ENDER_DRAGON_FLAP, 1.0F, 1.0F);
+        player.addStatusEffect(new StatusEffectInstance(
+                StatusEffects.NAUSEA,
+                (teleportDelay + 3) * 20,
+                0,
+                false,
+                false
+        ));
     }
 
+    public static void cancelTeleportIfActive(PlayerEntity player) {
+        UUID playerId = player.getUuid();
+        if (activeTeleports.containsKey(playerId)) {
+            activeTeleports.get(playerId).cancel();
+            activeTeleports.remove(playerId);
+        }
+    }
+
+    private static class TeleportTask extends Thread {
+        private final PlayerEntity player;
+        private boolean cancelled = false;
+
+        public TeleportTask(PlayerEntity player) {
+            this.player = player;
+        }
+
+        public void cancel() {
+            this.cancelled = true;
+            this.interrupt();
+        }
+
+        @Override
+        public void run() {
+            try {
+                // Wait for teleport delay
+                for (int i = 0; i < teleportDelay * 10 && !cancelled; i++) {
+                    Thread.sleep(100);
+
+                    // Check if player is still sneaking
+                    if (!player.isSneaking()) {
+                        cancel();
+                        player.getServer().execute(() -> cancelTeleportIfActive(player));
+                        return;
+                    }
+                }
+
+                if (!cancelled) {
+                    // Get spawn position
+                    final BlockPos spawnPos = player.getWorld().getSpawnPos();
+
+                    // Execute teleport on main thread
+                    player.getServer().execute(() -> {
+                        if (!cancelled && player.isSneaking()) {
+                            player.teleport(
+                                    (ServerWorld) player.getWorld(),
+                                    spawnPos.getX(),
+                                    spawnPos.getY(),
+                                    spawnPos.getZ(),
+                                    Collections.emptySet(),
+                                    player.getYaw(),
+                                    player.getPitch(),
+                                    true
+                            );
+                            activeTeleports.remove(player.getUuid());
+                        } else {
+                            cancelTeleportIfActive(player);
+                        }
+                    });
+                }
+            } catch (InterruptedException e) {
+                // Thread was interrupted (cancelled)
+            }
+        }
+    }
 }

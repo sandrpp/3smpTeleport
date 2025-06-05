@@ -1,5 +1,6 @@
-[18:54:34] [main/INFO] (FabricLoader/GameProvider) Loading Minecraft 1.21.5 with Fabric Loader 0.16.14
-[18:54:34] [main/INFO] (FabricLoader) Loading 44 mods:
+[00:20:02] [main/INFO] (FabricLoader/GameProvider) Loading Minecraft 1.21.5 with Fabric Loader 0.16.14
+[00:20:02] [main/INFO] (FabricLoader) Loading 45 mods:
+	- adventure-platform-fabric 6.4.0
 	- fabric-api 0.125.3+1.21.5
 	- fabric-api-base 0.4.62+73a52b4b49
 	- fabric-api-lookup-api-v1 1.6.96+86c3a9f149
@@ -44,26 +45,27 @@
 	- minecraft 1.21.5
 	- mixinextras 0.4.1
 	- smpteleport 1.0-SNAPSHOT
-[18:54:34] [main/INFO] (FabricLoader/Mixin) SpongePowered MIXIN Subsystem Version=0.8.7 Source=file:/home/sandrp/.gradle/caches/modules-2/files-2.1/net.fabricmc/sponge-mixin/0.15.5+mixin.0.8.7/22f9eb729e216a091673a574a5906dc1b9027fb3/sponge-mixin-0.15.5+mixin.0.8.7.jar Service=Knot/Fabric Env=SERVER
-[18:54:34] [main/INFO] (FabricLoader/Mixin) Loaded Fabric development mappings for mixin remapper!
-[18:54:34] [main/INFO] (FabricLoader/Mixin) Compatibility level set to JAVA_21
-[18:54:34] [main/INFO] (FabricLoader/MixinExtras|Service) Initializing MixinExtras via com.llamalad7.mixinextras.service.MixinExtrasServiceImpl(version=0.4.1).
-[18:54:37] [main/INFO] (Minecraft) [STDOUT]: Connection with MySQL successful!
-[18:54:38] [main/INFO] (Minecraft) Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
-[18:54:38] [main/INFO] (Minecraft) Loaded 1373 recipes
-[18:54:38] [main/INFO] (Minecraft) Loaded 1484 advancements
-[18:54:38] [main/INFO] (BiomeModificationImpl) Applied 0 biome modifications to 0 of 65 new biomes in 619.3 μs
-[18:54:38] [Server thread/INFO] (Minecraft) Starting minecraft server version 1.21.5
-[18:54:38] [Server thread/INFO] (Minecraft) Loading properties
-[18:54:38] [Server thread/INFO] (Minecraft) Default game type: SURVIVAL
-[18:54:38] [Server thread/INFO] (Minecraft) Generating keypair
-[18:54:38] [Server thread/INFO] (Minecraft) Starting Minecraft server on *:25565
-[18:54:38] [Server thread/INFO] (Minecraft) Using epoll channel type
-[18:54:38] [Server thread/INFO] (Minecraft) Preparing level "world"
-[18:54:39] [Server thread/INFO] (Minecraft) Preparing start region for dimension minecraft:overworld
-[18:54:39] [Worker-Main-4/INFO] (Minecraft) Preparing spawn area: 0%
-[18:54:39] [Server thread/INFO] (Minecraft) Time elapsed: 401 ms
-[18:54:39] [Server thread/INFO] (Minecraft) Done (0.583s)! For help, type "help"
-[18:54:39] [User Authenticator #1/INFO] (Minecraft) UUID of player Gemmer is 0277cf36-5a0d-4dca-afab-a491f4107c89
-[18:54:40] [Server thread/INFO] (Minecraft) Gemmer[/127.0.0.1:40490] logged in with entity id 58 at (95.04619009245395, 76.0, -220.90739822358879)
-[18:54:40] [Server thread/INFO] (Minecraft) Gemmer joined the game
+[00:20:02] [main/INFO] (FabricLoader/Mixin) SpongePowered MIXIN Subsystem Version=0.8.7 Source=file:/home/sandrp/.gradle/caches/modules-2/files-2.1/net.fabricmc/sponge-mixin/0.15.5+mixin.0.8.7/22f9eb729e216a091673a574a5906dc1b9027fb3/sponge-mixin-0.15.5+mixin.0.8.7.jar Service=Knot/Fabric Env=SERVER
+[00:20:03] [main/INFO] (FabricLoader/Mixin) Loaded Fabric development mappings for mixin remapper!
+[00:20:03] [main/INFO] (FabricLoader/Mixin) Compatibility level set to JAVA_21
+[00:20:03] [main/INFO] (FabricLoader/MixinExtras|Service) Initializing MixinExtras via com.llamalad7.mixinextras.service.MixinExtrasServiceImpl(version=0.4.1).
+[00:20:06] [main/INFO] (Minecraft) [STDOUT]: Connection with MySQL successful!
+[00:20:06] [main/INFO] (Minecraft) Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
+[00:20:07] [main/INFO] (Minecraft) Loaded 1373 recipes
+[00:20:07] [main/INFO] (Minecraft) Loaded 1484 advancements
+[00:20:07] [main/INFO] (BiomeModificationImpl) Applied 0 biome modifications to 0 of 65 new biomes in 617.7 μs
+[00:20:07] [Server thread/INFO] (Minecraft) Starting minecraft server version 1.21.5
+[00:20:07] [Server thread/INFO] (Minecraft) Loading properties
+[00:20:07] [Server thread/INFO] (Minecraft) Default game type: SURVIVAL
+[00:20:07] [Server thread/INFO] (Minecraft) Generating keypair
+[00:20:07] [Server thread/INFO] (Minecraft) Starting Minecraft server on *:25565
+[00:20:07] [Server thread/INFO] (Minecraft) Using epoll channel type
+[00:20:07] [Server thread/INFO] (Minecraft) Preparing level "world"
+[00:20:07] [Server thread/INFO] (Minecraft) Preparing start region for dimension minecraft:overworld
+[00:20:08] [Worker-Main-14/INFO] (Minecraft) Preparing spawn area: 0%
+[00:20:08] [Server thread/INFO] (Minecraft) Time elapsed: 405 ms
+[00:20:08] [Server thread/INFO] (Minecraft) Done (0.583s)! For help, type "help"
+[00:20:08] [User Authenticator #1/INFO] (Minecraft) UUID of player sandrp is 4545f4c2-a0f7-4740-8fb1-b2ae6bbc3f56
+[00:20:08] [Server thread/INFO] (Minecraft) sandrp[/127.0.0.1:32890] logged in with entity id 24 at (119.06009286742575, 67.0580719218555, -160.21801019595588)
+[00:20:08] [Server thread/INFO] (Minecraft) sandrp joined the game
+[00:20:41] [Server thread/INFO] (Minecraft) [sandrp: Set the world spawn point to 104, 72, -204 [0.0]]

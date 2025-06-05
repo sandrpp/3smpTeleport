@@ -33,6 +33,15 @@ repositories {
     // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
     // for more information about repositories.
+
+    // for development builds
+    maven {
+        name = "sonatype-oss-snapshots1"
+        url = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+        mavenContent { snapshotsOnly() }
+    }
+    // for releases
+    mavenCentral()
 }
 
 dependencies {
@@ -44,6 +53,7 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     implementation 'mysql:mysql-connector-java:8.0.28'
+    modImplementation include("net.kyori:adventure-platform-fabric:6.4.0") // for Minecraft 1.21.5
 }
 
 processResources {

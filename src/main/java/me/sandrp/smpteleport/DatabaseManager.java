@@ -1,6 +1,9 @@
 package me.sandrp.smpteleport;
 
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -75,14 +78,18 @@ public class DatabaseManager {
         }
     }
 
-    public boolean isInCoordinates(BlockPos pos) throws SQLException {
+    public boolean isInCoordinates(PlayerEntity player) throws SQLException {
+        BlockPos pos = player.getBlockPos();
+        ServerWorld world = (ServerWorld) player.getWorld();
+
         String sql = "SELECT x, y, z FROM Coordinates";
         try (Statement stmt = connection.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 if (pos.getX() == rs.getInt("x") &&
                         pos.getY() == rs.getInt("y") &&
-                        pos.getZ() == rs.getInt("z")) {
+                        pos.getZ() == rs.getInt("z") &&
+                        world.getRegistryKey() == ServerWorld.OVERWORLD) {
                     return true;
                 }
             }
