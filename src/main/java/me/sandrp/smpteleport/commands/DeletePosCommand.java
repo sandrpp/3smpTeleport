@@ -25,14 +25,8 @@ public class DeletePosCommand implements Command<ServerCommandSource> {
         String world = player.getWorld().getRegistryKey().getValue().toString();
 
         String name = StringArgumentType.getString(context, "name");
-
-        try {
-            Main.getDatabaseManager().deleteCoordinate(name);
-            player.sendMessage(Main.getMiniMessage().deserialize("<#56bc66>Position erfolgreich gelöscht</#56bc66>"));
-        } catch (SQLException e) {
-            player.sendMessage(Main.getMiniMessage().deserialize("<#e53051>Fehler beim löschen der Position!</#e53051>"));
-            e.printStackTrace();
-        }
+        Main.getFileStorageManager().deleteCoordinate(name);
+        player.sendMessage(Main.getMiniMessage().deserialize("<#56bc66>Position erfolgreich gelöscht</#56bc66>"));
 
         return 1;
     }

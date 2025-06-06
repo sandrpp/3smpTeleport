@@ -19,7 +19,7 @@ public class EntityMixin {
         if (th instanceof ServerPlayerEntity player) {
             boolean wasSneaking = player.isSneaking();
 
-            if (!wasSneaking && sneaking && Main.getDatabaseManager().isInCoordinates(player)) {
+            if (!wasSneaking && sneaking && Main.getFileStorageManager().isInCoordinates(player)) {
                 // Player started sneaking in a valid location
                 Teleporter.startTeleportSpawn(player);
             } else if (wasSneaking && !sneaking) {

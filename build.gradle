@@ -52,8 +52,7 @@ dependencies {
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    implementation 'mysql:mysql-connector-java:8.0.28'
-    modImplementation include("net.kyori:adventure-platform-fabric:6.4.0") // for Minecraft 1.21.5
+    modImplementation include("net.kyori:adventure-platform-fabric:6.4.0")
 }
 
 processResources {

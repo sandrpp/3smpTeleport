@@ -4,6 +4,7 @@ import me.sandrp.smpteleport.Main;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
@@ -34,7 +35,7 @@ public class Teleporter {
         task.start();
 
         // Apply effects
-        player.playSound(SoundEvents.ENTITY_ENDER_DRAGON_FLAP, 1.0F, 1.0F);
+        player.playSound(SoundEvents.ENTITY_ENDER_DRAGON_FLAP, 0.7F, 0.9F);
         player.addStatusEffect(new StatusEffectInstance(
                 StatusEffects.NAUSEA,
                 (teleportDelay + 3) * 20,
@@ -49,6 +50,8 @@ public class Teleporter {
         if (activeTeleports.containsKey(playerId)) {
             activeTeleports.get(playerId).cancel();
             activeTeleports.remove(playerId);
+            player.removeStatusEffect(StatusEffects.NAUSEA);
+            player.playSoundToPlayer(SoundEvents.BLOCK_CHAIN_STEP, SoundCategory.PLAYERS, 0.6F, 0.6F);
         }
     }
 
@@ -97,6 +100,7 @@ public class Teleporter {
                                     player.getPitch(),
                                     true
                             );
+                            player.playSoundToPlayer(SoundEvents.ENTITY_PLAYER_TELEPORT, SoundCategory.PLAYERS, 5.0F, 0.9F);
                             activeTeleports.remove(player.getUuid());
                         } else {
                             cancelTeleportIfActive(player);

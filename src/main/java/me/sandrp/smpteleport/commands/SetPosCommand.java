@@ -24,18 +24,14 @@ public class SetPosCommand implements Command<ServerCommandSource> {
 
         String name = StringArgumentType.getString(context, "name");
 
-        try {
-            Main.getDatabaseManager().saveCoordinate(
-                    name,
-                    pos.getX(),
-                    pos.getY(),
-                    pos.getZ()
-            );
-            player.sendMessage(Main.getMiniMessage().deserialize("<#56bc66>Position erfolgreich erstellt</#56bc66>"));
-        } catch (SQLException e) {
-            player.sendMessage(Main.getMiniMessage().deserialize("<#e53051>Fehler beim erstellen der Position!</#e53051>"));
-            e.printStackTrace();
-        }
+        Main.getFileStorageManager().saveCoordinate(
+                name,
+                pos.getX(),
+                pos.getY(),
+                pos.getZ()
+        );
+        player.sendMessage(Main.getMiniMessage().deserialize("<#56bc66>Position erfolgreich erstellt</#56bc66>"));
+
 
         return 1;
     }
