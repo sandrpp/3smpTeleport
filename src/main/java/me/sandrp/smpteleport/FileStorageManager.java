@@ -6,7 +6,6 @@ import com.google.gson.reflect.TypeToken;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.WorldSavePath;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -74,9 +73,9 @@ public class FileStorageManager {
         ServerWorld world = (ServerWorld) player.getWorld();
 
         for (Coordinate coord : coordinates.values()) {
-            if (pos.getX() == coord.getX() &&
-                    pos.getY() == coord.getY() &&
-                    pos.getZ() == coord.getZ() &&
+            if (pos.getX() == coord.x() &&
+                    pos.getY() == coord.y() &&
+                    pos.getZ() == coord.z() &&
                     world.getRegistryKey() == ServerWorld.OVERWORLD) {
                 return true;
             }
@@ -88,33 +87,6 @@ public class FileStorageManager {
         return new ArrayList<>(coordinates.values());
     }
 
-    public static class Coordinate {
-        private final String name;
-        private final int x;
-        private final int y;
-        private final int z;
-
-        public Coordinate(String name, int x, int y, int z) {
-            this.name = name;
-            this.x = x;
-            this.y = y;
-            this.z = z;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public int getY() {
-            return y;
-        }
-
-        public int getZ() {
-            return z;
-        }
+    public record Coordinate(String name, int x, int y, int z) {
     }
 }

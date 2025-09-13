@@ -1,19 +1,14 @@
 package me.sandrp.smpteleport.teleport.utils;
 
-import me.sandrp.smpteleport.Main;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class Teleporter {
 
@@ -78,7 +73,7 @@ public class Teleporter {
                     // Check if player is still sneaking
                     if (!player.isSneaking()) {
                         cancel();
-                        player.getServer().execute(() -> cancelTeleportIfActive(player));
+                        Objects.requireNonNull(player.getServer()).execute(() -> cancelTeleportIfActive(player));
                         return;
                     }
                 }
@@ -88,7 +83,7 @@ public class Teleporter {
                     final BlockPos spawnPos = player.getWorld().getSpawnPos();
 
                     // Execute teleport on main thread
-                    player.getServer().execute(() -> {
+                    Objects.requireNonNull(player.getServer()).execute(() -> {
                         if (!cancelled && player.isSneaking()) {
                             player.teleport(
                                     (ServerWorld) player.getWorld(),

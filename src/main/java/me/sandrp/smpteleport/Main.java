@@ -11,9 +11,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.minecraft.command.CommandSource;
 import net.minecraft.server.command.CommandManager;
 
-import java.io.File;
 import java.nio.file.Path;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,19 +31,20 @@ public class Main implements ModInitializer {
 
         //register commands
 
-        //pos command
+        //setpos command
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, executor) -> {
             dispatcher.register(CommandManager.literal("setpos").
                     then(CommandManager.argument("name", StringArgumentType.string()).
                             executes(new SetPosCommand())));
         });
 
+        //delpos command
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, executor) -> {
             dispatcher.register(CommandManager.literal("delpos")
                     .then(CommandManager.argument("name", StringArgumentType.string())
                             .suggests((context, builder) -> {
                                 List<String> positionNames = new ArrayList<>();
-                                fileStorageManager.getAllCoordinates().forEach(coordinate -> { positionNames.add(coordinate.getName()); });
+                                fileStorageManager.getAllCoordinates().forEach(coordinate -> { positionNames.add(coordinate.name()); });
                                 return CommandSource.suggestMatching(positionNames, builder);
                             })
                             .executes(new DeletePosCommand())));

@@ -9,12 +9,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.sql.SQLException;
-
 @Mixin(Entity.class)
 public class EntityMixin {
     @Inject(at = @At("HEAD"), method = "setSneaking")
-    private void setSneaking(boolean sneaking, CallbackInfo info) throws SQLException {
+    private void setSneaking(boolean sneaking, CallbackInfo info) {
         Entity th = (Entity)(Object)this;
         if (th instanceof ServerPlayerEntity player) {
             boolean wasSneaking = player.isSneaking();
