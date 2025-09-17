@@ -1,6 +1,7 @@
 package me.sandrp.smpteleport.mixin;
 
 import me.sandrp.smpteleport.Main;
+import me.sandrp.smpteleport.pvp.utils.PVPer;
 import me.sandrp.smpteleport.teleport.utils.Teleporter;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -17,11 +18,14 @@ public class EntityMixin {
         if (th instanceof ServerPlayerEntity player) {
             boolean wasSneaking = player.isSneaking();
 
-            if (!wasSneaking && sneaking && Main.getFileStorageManager().isInCoordinates(player)) {
-                // Player started sneaking in a valid location
-                Teleporter.startTeleportSpawn(player);
-            } else if (wasSneaking && !sneaking) {
-                // Player stopped sneaking
+            if (!wasSneaking && sneaking) {
+                if (Main.getFileStorageManager().isInCoordinates(player)) {
+                    Teleporter.startTeleportSpawn(player);
+                } else if (Main.getFileStorageManager().isOnPVPCoordinates(player)) {
+                    PVPer.startPvP(player);
+                }
+            }
+            else if (wasSneaking && !sneaking) {
                 Teleporter.cancelTeleportIfActive(player);
             }
         }

@@ -5,6 +5,8 @@
       <w>gespeichert</w>
       <w>listpos</w>
       <w>setpos</w>
+      <w>setpvp</w>
+      <w>setpvppos</w>
     </words>
   </dictionary>
 </component>

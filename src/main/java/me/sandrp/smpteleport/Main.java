@@ -4,6 +4,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import me.sandrp.smpteleport.commands.DeletePosCommand;
 import me.sandrp.smpteleport.commands.ListPosCommand;
 import me.sandrp.smpteleport.commands.SetPosCommand;
+import me.sandrp.smpteleport.commands.SetPvpPosCommand;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.loader.api.FabricLoader;
@@ -36,6 +37,12 @@ public class Main implements ModInitializer {
             dispatcher.register(CommandManager.literal("setpos").
                     then(CommandManager.argument("name", StringArgumentType.string()).
                             executes(new SetPosCommand())));
+        });
+
+        //setpvppos command
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, executor) -> {
+            dispatcher.register(CommandManager.literal("setpvppos").
+                    executes(new SetPvpPosCommand()));
         });
 
         //delpos command

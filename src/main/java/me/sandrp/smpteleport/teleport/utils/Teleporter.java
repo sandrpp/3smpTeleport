@@ -30,7 +30,6 @@ public class Teleporter {
         task.start();
 
         // Apply effects
-        player.playSound(SoundEvents.ENTITY_ENDER_DRAGON_FLAP, 0.7F, 0.9F);
         player.addStatusEffect(new StatusEffectInstance(
                 StatusEffects.NAUSEA,
                 (teleportDelay + 3) * 20,

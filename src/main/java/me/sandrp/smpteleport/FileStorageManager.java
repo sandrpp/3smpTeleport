@@ -17,8 +17,10 @@ import java.util.Map;
 
 public class FileStorageManager {
     private final File dataFile;
+    private final File pvpFile;
     private final Gson gson;
     private Map<String, Coordinate> coordinates;
+    private Coordinate pvpCoordinate;
 
     public FileStorageManager(Path configDir) {
         File modDataFolder = configDir.resolve("smpteleport").toFile();
@@ -27,9 +29,11 @@ public class FileStorageManager {
         }
 
         this.dataFile = new File(modDataFolder, "coordinates.json");
+        this.pvpFile = new File(modDataFolder, "pvp_coordinate.json");
         this.gson = new GsonBuilder().setPrettyPrinting().create();
         this.coordinates = new HashMap<>();
         loadData();
+        loadPvpCoordinate();
     }
 
     private void loadData() {
@@ -48,7 +52,7 @@ public class FileStorageManager {
         }
     }
 
-    private void saveData() {
+    private void saveCoordinates() {
         try (Writer writer = new FileWriter(dataFile)) {
             gson.toJson(coordinates, writer);
         } catch (IOException e) {
@@ -56,16 +60,60 @@ public class FileStorageManager {
         }
     }
 
-    public void saveCoordinate(String name, int x, int y, int z) {
+    // --- PVP Coordinate methods ---
+
+    private void loadPvpCoordinate() {
+        if (!pvpFile.exists()) {
+            pvpCoordinate = null;
+            return;
+        }
+        try (Reader reader = new FileReader(pvpFile)) {
+            pvpCoordinate = gson.fromJson(reader, Coordinate.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            pvpCoordinate = null;
+        }
+    }
+
+    private void savePvpCoordinate() {
+        try (Writer writer = new FileWriter(pvpFile)) {
+            gson.toJson(pvpCoordinate, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setPvpCoordinate(int x, int y, int z) {
+        pvpCoordinate = new Coordinate("PVP", x, y, z);
+        savePvpCoordinate();
+    }
+
+    public boolean isOnPVPCoordinates(PlayerEntity player) {
+        BlockPos pos = player.getBlockPos();
+        ServerWorld world = (ServerWorld) player.getWorld();
+
+
+        if (pos.getX() == pvpCoordinate.x() &&
+                pos.getY() == pvpCoordinate.y() &&
+                pos.getZ() == pvpCoordinate.z() &&
+                world.getRegistryKey() == ServerWorld.OVERWORLD) {
+            return true;
+        }
+        return false;
+    }
+
+    // --- End PVP Coordinate methods ---
+
+    public void setCoordinate(String name, int x, int y, int z) {
         coordinates.put(name, new Coordinate(name, x, y, z));
-        saveData();
+        saveCoordinates();
     }
 
     public void deleteCoordinate(String name) {
         if (coordinates.remove(name) == null) {
             throw new RuntimeException("Coordinate with name '" + name + "' not found, nothing was deleted");
         }
-        saveData();
+        saveCoordinates();
     }
 
     public boolean isInCoordinates(PlayerEntity player) {

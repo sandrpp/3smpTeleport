@@ -8,22 +8,20 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 
-public class SetPosCommand implements Command<ServerCommandSource> {
+public class SetPvpPosCommand implements Command<ServerCommandSource> {
     @Override
     public int run(CommandContext<ServerCommandSource> context) {
         ServerCommandSource source = context.getSource();
         if(!(source.getEntity() instanceof ServerPlayerEntity player)) return 1;
 
         BlockPos pos = player.getBlockPos();
-        String name = StringArgumentType.getString(context, "name");
 
-        Main.getFileStorageManager().setCoordinate(
-                name,
+        Main.getFileStorageManager().setPvpCoordinate(
                 pos.getX(),
                 pos.getY(),
                 pos.getZ()
         );
-        player.sendMessage(Main.getMiniMessage().deserialize("<#56bc66>Position erfolgreich erstellt</#56bc66>"));
+        player.sendMessage(Main.getMiniMessage().deserialize("<#56bc66>PVP Position erfolgreich erstellt</#56bc66>"));
 
 
         return 0;
